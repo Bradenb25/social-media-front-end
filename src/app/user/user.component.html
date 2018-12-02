@@ -1,0 +1,35 @@
+<div class="container" style="margin-top: 30px;">
+  <div class="row">
+    <div class="col-3">
+      <img class="user-picture" src="{{profilePicture}}">
+    </div>
+    <div class="col-9">
+      <span id="user-name">{{user.name}}</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <mat-tab-group>
+        <mat-tab label="Friends">
+
+          <mat-card class="example-card">
+            <mat-card-header style="border-bottom: 2px solid rgb(233, 235, 238); margin-bottom: 8px;">
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>Friends</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngFor="let result of friends">
+                <app-search-row [result]='result' [showDelete]='true'></app-search-row>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+        </mat-tab>
+        <mat-tab label="Groups"> Groups </mat-tab>
+        <mat-tab label="Edit Profile">
+            
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

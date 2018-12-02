@@ -1,0 +1,16 @@
+<mat-card class="new-message">
+
+  <mat-card-content>
+    <div class="row">
+      <div class="col-2">
+        <img class="picture" src="{{pictureUrl}}">
+      </div>
+      <div class="col-10">
+        <mat-form-field class="form-field" style="width: 100%; height: auto;">
+          <textarea matInput placeholder="Write everything" [(ngModel)]='message'></textarea>
+        </mat-form-field>
+        <mat-icon style="float: right; cursor: pointer;" (click)='createPost()'>send</mat-icon>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card> 

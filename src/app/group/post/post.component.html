@@ -1,0 +1,44 @@
+<mat-card class="post">
+
+  <mat-card-content>
+    <div class="row">
+      <div class="col-2">
+        <img class="post-person-img" src="{{post.pictureUrl}}">
+      </div>
+      <div class="col-10">
+        <span class="post-person-name">
+          {{post.name}}
+        </span>
+        <br>
+        <span class="post-person-date">
+          {{post.time | date}}
+        </span>
+      </div>
+    </div>
+    <div class="row post-content">
+      <div class="col-12">
+        {{post.content}}
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-12">
+        <app-post-comment *ngFor='let postComment of postComments' [postComment]='postComment' (event)="deletePostComment(postComment)">
+
+        </app-post-comment> 
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 reply">
+        <div class="row"> 
+          <div class="col-2">
+            <img class="reply-pic" src="{{userSvc.getLoggedInProfilePicUrl()}}">
+          </div>
+          <div class="col-9 reply-box">
+            <input class="reply-input-box" type="text" #message placeholder="Write a message" (keyup)="createComment(message, $event)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,27 @@
+.group-name {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.type {
+    font-weight: 200;
+}
+
+.group-tabs {
+    width: 100%; 
+    background-color:beige;
+    margin: 8px 0;
+}
+
+.main-content {
+    max-width: 700px;
+    margin-top: 20px;
+}
+
+.change-pic {
+    position: relative;
+    bottom: -40px;
+    right: 30px;
+    cursor: pointer;
+}

@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="max-height: 50px;">
+  <a class="navbar-brand" style="color: white;">Dynamite</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <mat-form-field class="form-field" style="margin: 8px 0 0 0; width: 400px;" *ngIf="isAuthenticated()">
+          <input matInput #query class="formControl" type="text" style="background-color: white;" (keyup)='search(query, $event)'>
+          <mat-placeholder class="placeholder">Search</mat-placeholder>
+          <mat-icon id="search-icon">search</mat-icon>
+        </mat-form-field>
+      </li>
+    </ul>
+
+    <ul class="nav justify-content-end" *ngIf="!isAuthenticated()">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="'/login'">Login</a>
+      </li>
+    </ul>
+
+    <ul class="nav justify-content-end" *ngIf="isAuthenticated()">
+      <li class="nav-link">
+        <button mat-button [matMenuTriggerFor]="menu" style="color: white">Friend Requests</button>
+        <mat-menu #menu="matMenu" style="width: 200px;">
+          <button mat-menu-item *ngFor="let request of friendRequests" style="width: 200px; cursor:initial">
+            <img src="{{request.pictureUrl}}" style="max-height: 50px;">
+            {{request.first_name}}
+
+            <span (click)="addFriend(request)" style="float: right;">Add</span>
+          </button>
+        </mat-menu>
+      </li>
+      <li>
+        <button mat-button [matMenuTriggerFor]="createMenu" style="color: white">Create</button>
+        <mat-menu #createMenu="matMenu" style="width: 200px;">
+          <div mat-menu-item style="min-width: 200px; cursor:initial" (click)="createGroup()">
+            <div>
+              <mat-icon>people</mat-icon>
+              Group
+              <div style="position: relative;">
+                Find people that like the same things as you.
+              </div>
+            </div>
+          </div>
+        </mat-menu>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color:white; cursor: pointer;" [routerLink]="'/user'">{{name}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color:white; cursor: pointer;" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+
+  </div>
+</nav>

@@ -1,0 +1,26 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-8">
+      <input type="file" (change)="fileChangeEvent($event)" /> 
+
+      <image-cropper
+      [imageChangedEvent]="imageChangedEvent" 
+      [maintainAspectRatio]="true" 
+      [aspectRatio]="7/3" 
+      [resizeToWidth]="700"
+      format="png" 
+      (imageCropped)="imageCropped($event)" 
+      (imageLoaded)="imageLoaded()"
+      (loadImageFailed)="loadImageFailed()">
+      </image-cropper> 
+ 
+    </div>
+    
+    <div class="col-4">
+      <img [src]="croppedImage" style="max-width: 200px;"/> 
+      <button class="upload-file-button " mat-raised-button color="primary" (click)="uploadGroupPhoto()">Upload File</button>
+    </div>
+    
+  </div>
+</div>

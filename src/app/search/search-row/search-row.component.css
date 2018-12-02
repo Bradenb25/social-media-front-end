@@ -1,0 +1,20 @@
+.search-row-name {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-left: 15px;
+} 
+
+.search-result {
+    margin: 10px 0;
+}
+ 
+.crop {
+    
+    overflow: hidden; 
+}  
+
+.crop img {
+    max-width: 100px;
+    height: 100px;      
+    border-radius: 50px;
+}

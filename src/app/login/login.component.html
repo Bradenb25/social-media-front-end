@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12"> 
+      <h2 style="text-align: center;">Login</h2>
+    </div>
+    <div class="col-12">
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <form [formGroup]='loginGroup'> 
+        <!-- <label>User Name</label> -->
+        <!-- <br> -->
+        <mat-form-field class="form-field">
+          <input matInput class="formControl" formControlName="userName">
+          <mat-placeholder class="placeholder">User Name</mat-placeholder>
+        </mat-form-field>
+        <!-- <br>
+        <label>Password</label> --> 
+        <br>
+        <label style="color: red;" *ngIf="error">Incorrect Username/Password</label>
+        <mat-form-field class="form-field">
+          <input matInput class="formControl" type="password" formControlName="password">
+          <mat-placeholder class="placeholder">Password..</mat-placeholder>
+        </mat-form-field>
+
+        <br>
+
+        <button mat-raised-button type="submit" [disabled]='loginGroup.invalid' (click)="login()" color="primary" style="margin-right: 30px;">Login</button>
+        <button mat-raised-button style="margin-right: 30px;">Cancel</button>
+        <div class="float-right">New User? <span id="sign-up" [routerLink]="['/sign-up']">Sign Up</span></div> 
+      </form> 
+    </div>
+    <div class="col-3"></div>
+  </div>
+</div>

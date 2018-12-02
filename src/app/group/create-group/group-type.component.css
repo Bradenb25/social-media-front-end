@@ -1,0 +1,7 @@
+.description {
+    word-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+    line-height: 1.2;
+    margin-bottom: 5px;
+}

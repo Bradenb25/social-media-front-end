@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12"> 
+      <h2 style="text-align: center;">Sign Up</h2>
+    </div>
+    <div class="col-12">
+      <hr>
+    </div>
+  </div> 
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <form [formGroup]='loginGroup'>
+        
+        <mat-form-field class="form-field">
+          <input matInput class="formControl" type="text" formControlName="first_name">
+          <mat-placeholder class="placeholder">First Name</mat-placeholder>
+        </mat-form-field>
+        
+        <mat-form-field class="form-field">
+          <input matInput class="formControl" type="email" formControlName="email">
+          <mat-placeholder class="placeholder">Email</mat-placeholder>
+        </mat-form-field>
+        
+        <br>
+        <label style="color:red;" *ngIf="userNameExists">Username already exists</label>
+        <mat-form-field class="form-field">
+          <input matInput class="formControl" (keyup)="userExists()" formControlName="user_name">
+          <mat-placeholder class="placeholder">User Name</mat-placeholder>
+        </mat-form-field>
+         
+        <mat-form-field class="form-field">
+          <input matInput class="formControl" type="password" formControlName="hashed_password" >
+          <mat-placeholder class="placeholder">Password..</mat-placeholder>
+        </mat-form-field> 
+        <!-- validatePassword> -->
+        <br>
+
+        <button mat-raised-button type="submit" (click)="signUp()" [disabled]='loginGroup.invalid && !userNameExists' color="primary" style="margin-right: 30px;">Sign Up</button>
+        <button mat-raised-button>Cancel</button>
+      </form>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</div>

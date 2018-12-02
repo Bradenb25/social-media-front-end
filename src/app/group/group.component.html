@@ -1,0 +1,54 @@
+<div class="container" style="margin-top: 0;">
+  <div class="row">
+    <div class="col-3">
+      <div class="" style="padding: 40px 0;">
+        <div class="group-name">
+          Kristina & Bradens' Wedding
+        </div>
+
+        <div class="type">
+          <span>Closed</span>
+          <mat-icon style="position: absolute;">
+            lock_open
+          </mat-icon>
+        </div>
+
+        <div style="margin-top: 25px;">
+          <div class="group-tabs">
+            About
+          </div>
+          <div class="group-tabs">
+            Discussion
+          </div>
+          <div class="group-tabs">
+            Members
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-9">
+      <div style="max-height: 300px; overflow: hidden;">
+        <img src="https://scontent-sea1-1.xx.fbcdn.net/v/t1.0-9/44186024_2665414390349616_3649985193801940992_o.jpg?_nc_cat=111&_nc_ht=scontent-sea1-1.xx&oh=614935fe827c031b3c4ad79c04cc3e00&oe=5CA403FB"
+          style="max-width: 700px; padding: 15px 0;">
+        <mat-icon class="change-pic" (click)="changePicture()">add</mat-icon> 
+      </div> 
+      <div style="background-color: white; height: 50px; max-width: 700px;">
+
+      </div>
+
+      <div class="main-content">
+        <div class="row"> 
+          <div class="col-8">
+            <app-new-message [groupId]='groupId'></app-new-message>
+            <app-post *ngFor='let post of posts' [post]='post'></app-post>
+          </div>
+          <div class="col-4" style="margin-top: 10px;">
+            <app-add-member></app-add-member>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

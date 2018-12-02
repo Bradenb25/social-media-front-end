@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h3 style="text-align: left;">Create New Group</h3>
+    </div>
+    <div class="col-12">
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]='createGroup'>
+        <!-- <label>User Name</label> -->
+        <!-- <br> -->
+
+        <mat-form-field class="form-field" style="width: 100%;">
+
+          <label>Group Name</label>
+          <input matInput class="formControl" style="width: 100%;" formControlName='groupName'>
+        </mat-form-field>
+
+        <mat-form-field class="form-field" style="width: 100%;">
+          <label>Description</label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+
+        <mat-form-field style="width: 100%;">
+          <mat-select placeholder="Group Type" [(value)]='selectedGroupType' formControlName='groupType'>
+            <mat-select-trigger>
+              <app-group-type [groupType]='selectedGroupType'></app-group-type>
+            </mat-select-trigger>
+
+            <mat-option *ngFor='let groupTy of groupTypes' [value]="groupTy" style="height: auto;">
+              <app-group-type [groupType]='groupTy'></app-group-type>
+            </mat-option>
+
+          </mat-select>
+        </mat-form-field>
+
+        <!-- <div *ngFor='let groupTy of groupTypes'>
+            <app-group-type [groupType]='groupTy'></app-group-type> 
+        </div> -->
+        <br>
+
+        <button mat-raised-button type="submit" color="primary" style="margin-right: 30px;" (click)='createNewGroup()'>Create</button>
+        <button mat-raised-button style="margin-right: 30px;" (click)="close()">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>

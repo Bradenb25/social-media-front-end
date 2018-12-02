@@ -1,0 +1,20 @@
+<div class="container search-result">
+    <div class="row">
+        <div class="col-3 crop">
+            <img src="{{pictureUrl}}" class="search-result-picture">
+        </div>
+
+        <div class="col-6 search-row-name">
+            <span *ngIf="!isGroup">{{result.name}}</span>
+            <span *ngIf="isGroup" (click)="navigate()" style="cursor: pointer;">{{result.name}}</span>
+        </div>
+
+        <div *ngIf="showDelete" (click)="unFriend()"> 
+            <span style="cursor: pointer;">Unfriend</span>
+        </div>
+  
+        <div *ngIf="showAdd" (click)="friendRequest()">
+            <span style="cursor: pointer;">Add Friend</span>
+        </div>
+    </div>
+</div>
