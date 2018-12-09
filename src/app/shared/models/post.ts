@@ -3,7 +3,7 @@ export class Post {
     content: string;
     group_id: number;
     poster_id: number;
-    poster_name: string;
+    name: string;
     poster
     time: Date;
     username: string;

@@ -1,6 +1,8 @@
 .user-picture {
-    max-width: 180px;
-    max-height: 180px;
+    min-width: 140px;
+    min-height: 140px;
+    max-width: 140px;
+    max-height: 140px;
 } 
 
 #user-name {
@@ -10,3 +12,23 @@
     margin-top: 90px;
     position: absolute;
 }
+
+#add-new-pic {
+    cursor: pointer;
+    margin: 8px 0 auto 107px;
+}
+
+#add-pic-holder {
+    background-color: white;
+    width: 140px;
+    height: 40px;
+    position: relative;
+    bottom: 40px;
+    opacity: 1;
+}
+
+
+
+
+
+

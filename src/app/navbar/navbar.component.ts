@@ -7,6 +7,7 @@ import { PictureService } from '../services/picture.service';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupComponent } from '../group/create-group/create-group.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-navbar',
@@ -21,9 +22,11 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private friendSvc: FriendsService,
     private picSvc: PictureService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private usrSvc: UserService,
+    private _sanitizer: DomSanitizer) { }
 
-  friendRequests: any;
+  friendRequests: any[];
   name: string;
 
 
@@ -31,7 +34,18 @@ export class NavbarComponent implements OnInit {
     this.friendSvc.getFriendRequests()
       .subscribe(y => {
         for (let i = 0; i < y.length; i++) {
-          y[i].pictureUrl = this.getProfilePictureUrl(y[i].username);
+
+          this.usrSvc.getProfilePicData(y[i].username)
+            .subscribe(x => {
+              var getImageResult = x.picture;
+              var binstr = Array.prototype.map.call(getImageResult.data, function (ch) {
+                return String.fromCharCode(ch);
+              }).join('');
+              let data = btoa(binstr);
+              let picture = "data:image/jpg;base64," + data;
+              y[i].pictureUrl = this._sanitizer.bypassSecurityTrustUrl(picture);
+            });
+
           if (i + 1 == y.length) {
 
             this.friendRequests = y;
@@ -49,7 +63,11 @@ export class NavbarComponent implements OnInit {
   addFriend(request) {
     this.friendSvc.addFriend(request.id)
       .subscribe(x => {
-
+        this.friendSvc.deleteFriendRequest(request.id)
+          .subscribe(x => {
+            let index = this.friendRequests.indexOf(request);
+            this.friendRequests.splice(index, 1);
+          })
       });
   }
 
@@ -73,6 +91,6 @@ export class NavbarComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateGroupComponent, {
       width: '500px',
     });
-  } 
+  }
 
 }

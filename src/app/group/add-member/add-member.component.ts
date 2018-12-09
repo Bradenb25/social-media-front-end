@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { GroupService } from 'src/app/services/group.service';
 
 @Component({
   selector: 'app-add-member',
@@ -7,9 +10,42 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddMemberComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private usrSvc: UserService,
+    private _sanitizer: DomSanitizer,
+    private grpSvc: GroupService
+  ) { }
+
+  @Input() groupId: number;
+  people: any;
 
   ngOnInit() {
+  }
+
+  getPeople(event, query) {
+    if (event.key == 'Enter') {
+      this.people = null;
+      this.usrSvc.searchForUsers(query.value)
+        .subscribe(x => {
+          for (let i = 0; i < x.length; i++) {
+            var getImageResult = x[i].picture;
+            var binstr = Array.prototype.map.call(getImageResult.data, function (ch) {
+              return String.fromCharCode(ch);
+            }).join('');
+            let data = btoa(binstr);
+            let picture = "data:image/jpg;base64," + data;
+            x[i].picture = this._sanitizer.bypassSecurityTrustUrl(picture);
+          }
+          this.people = x;
+        })
+    }
+  }
+
+  addPersonToGroup(person: any) {
+    this.grpSvc.joinGroup(this.groupId, person.id)
+      .subscribe(x => {
+
+      });
   }
 
 }

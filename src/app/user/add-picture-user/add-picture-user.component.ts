@@ -1,20 +1,20 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper/src/image-cropper.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ImageCropData } from '../shared/models/image-crop-data';
-import { GroupService } from '../services/group.service';
+import { GroupService } from 'src/app/services/group.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-add-picture',
-  templateUrl: './add-picture.component.html',
-  styleUrls: ['./add-picture.component.css']
+  selector: 'app-add-picture-user',
+  templateUrl: './add-picture-user.component.html',
+  styleUrls: ['./add-picture-user.component.css']
 })
-export class AddPictureComponent implements OnInit {
+export class AddPictureUserComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<AddPictureComponent>,
+    public dialogRef: MatDialogRef<AddPictureUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private groupSvc: GroupService) { }
+    private userSvc: UserService) { }
 
   ngOnInit() {
   }
@@ -49,8 +49,8 @@ export class AddPictureComponent implements OnInit {
   }
 
   uploadGroupPhoto() {
-    this.groupSvc.changePhoto(this.fileToUpload, this.data.groupId).subscribe(data => {
-      // do something, if upload success
+    this.userSvc.uploadProfilePic(this.fileToUpload).subscribe(data => {
+      this.dialogRef.close();
     }, error => {
       console.log(error);
     });

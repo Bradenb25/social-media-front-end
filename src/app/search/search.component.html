@@ -12,6 +12,7 @@
                     <div *ngFor="let result of friendResults">
                         <app-search-row [result]='result' [showAdd]='true'></app-search-row>
                     </div>
+                    <span *ngIf='displayNoResults(friendResults)'>No results</span>
                 </mat-card-content>
             </mat-card>
 
@@ -24,6 +25,7 @@
                     <div *ngFor="let result of groupResults">
                         <app-search-row [result]='result' [isGroup]='true'></app-search-row>
                     </div>
+                    <span *ngIf='displayNoResults(groupResults)'>No results</span>
                 </mat-card-content>
             </mat-card>
         </div>

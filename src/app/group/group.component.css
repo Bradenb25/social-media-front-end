@@ -12,6 +12,7 @@
     width: 100%; 
     background-color:beige;
     margin: 8px 0;
+    cursor: pointer;
 }
 
 .main-content {
@@ -21,7 +22,34 @@
 
 .change-pic {
     position: relative;
-    bottom: -40px;
+    bottom: -120px;
     right: 30px;
     cursor: pointer;
+    color: white;
+}
+
+.group-type-name {
+    vertical-align: top;
+    margin: auto 0;
+    display: inline;
+}
+
+.join-group {
+    background-color: blue;
+    height: 30px;
+    max-height: 30px;
+    max-width: 150px;
+    position: relative;
+    bottom: -10px;
+    left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.join-group-text {
+    margin-bottom: 10px;
+    display: inline;
+    position: relative;
+    bottom: 6px;
+    color: white;
 }

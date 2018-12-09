@@ -42,4 +42,12 @@ export class SearchComponent implements OnInit {
       });
   }
 
+  displayNoResults(list) {
+    if (list && list.length != 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }

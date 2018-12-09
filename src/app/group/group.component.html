@@ -3,24 +3,26 @@
     <div class="col-3">
       <div class="" style="padding: 40px 0;">
         <div class="group-name">
-          Kristina & Bradens' Wedding
+          {{groupInfo.name}}
         </div>
 
         <div class="type">
-          <span>Closed</span>
-          <mat-icon style="position: absolute;">
-            lock_open
+          <mat-icon style="">
+            {{groupInfo.icon}}
           </mat-icon>
+          <div class="group-type-name">
+            {{groupInfo.group_type_name}}
+          </div>
         </div>
 
         <div style="margin-top: 25px;">
-          <div class="group-tabs">
+          <div class="group-tabs" (click)="about()">
             About
           </div>
-          <div class="group-tabs">
+          <div class="group-tabs" (click)="discussion()">
             Discussion
           </div>
-          <div class="group-tabs">
+          <div class="group-tabs" (click)="members()">
             Members
           </div>
         </div>
@@ -29,22 +31,42 @@
 
     <div class="col-9">
       <div style="max-height: 300px; overflow: hidden;">
-        <img src="https://scontent-sea1-1.xx.fbcdn.net/v/t1.0-9/44186024_2665414390349616_3649985193801940992_o.jpg?_nc_cat=111&_nc_ht=scontent-sea1-1.xx&oh=614935fe827c031b3c4ad79c04cc3e00&oe=5CA403FB"
-          style="max-width: 700px; padding: 15px 0;">
-        <mat-icon class="change-pic" (click)="changePicture()">add</mat-icon> 
-      </div> 
+        <img [src]="groupPicture" style="max-width: 700px; padding: 15px 0;">
+        <mat-icon class="change-pic" (click)="changePicture()">add</mat-icon>
+      </div>
       <div style="background-color: white; height: 50px; max-width: 700px;">
-
+        <div class="join-group" (click)="joinGroup()">
+          <mat-icon style="margin: 2.5px; color: white;">add</mat-icon>
+          <div class="join-group-text">Join Group</div>
+        </div>
       </div>
 
       <div class="main-content">
-        <div class="row"> 
+        <div class="row">
           <div class="col-8">
-            <app-new-message [groupId]='groupId'></app-new-message>
-            <app-post *ngFor='let post of posts' [post]='post'></app-post>
+            <span *ngIf="showAbout">
+              {{ groupInfo.description }}
+            </span>
+            <span *ngIf='showDiscussion'>
+              <app-new-message [groupId]='groupId' (newMessage)="newMessage($event)"></app-new-message>
+              <app-post *ngFor='let post of posts' [post]='post' (postDeleted)="deletePost($event)"></app-post>
+            </span>
+            <span *ngIf='showMembers'>
+              <mat-card class="example-card" style="margin-top: 10px;">
+                <mat-card-header style="border-bottom: 2px solid rgb(233, 235, 238); margin-bottom: 8px;">
+                  <div mat-card-avatar class="example-header-image"></div>
+                  <mat-card-title>Group Members</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div *ngFor="let result of groupMembers">
+                    <app-search-row [result]='result' [isGroup]='false'></app-search-row>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </span>
           </div>
           <div class="col-4" style="margin-top: 10px;">
-            <app-add-member></app-add-member>
+            <app-add-member [groupId]='groupId'></app-add-member>
           </div>
         </div>
 

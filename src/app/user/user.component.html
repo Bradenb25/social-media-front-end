@@ -1,7 +1,11 @@
 <div class="container" style="margin-top: 30px;">
   <div class="row">
     <div class="col-3">
-      <img class="user-picture" src="{{profilePicture}}">
+      <img class="user-picture" id="users-picture" [src]="profilePicture" (error)="getDefaultPicture()" (mouseenter)="mouseEvent($event)"
+        (mouseleave)="mouseEvent($event)">
+      <div id="add-pic-holder" (mouseenter)="mouseEvent($event)" (mouseleave)="mouseEvent($event)" *ngIf="isMouseInPicture">
+        <mat-icon id="add-new-pic" (click)="openCropper()">camera_alt</mat-icon>
+      </div>
     </div>
     <div class="col-9">
       <span id="user-name">{{user.name}}</span>
@@ -25,9 +29,21 @@
           </mat-card>
 
         </mat-tab>
-        <mat-tab label="Groups"> Groups </mat-tab>
+        <mat-tab label="Groups">
+          <mat-card class="example-card" style="margin-top: 40px;">
+            <mat-card-header style="border-bottom: 2px solid rgb(233, 235, 238); margin-bottom: 8px;">
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>Groups</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngFor="let result of groupResults">
+                <app-search-row [result]='result' [isGroup]='true'></app-search-row>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
         <mat-tab label="Edit Profile">
-            
+
         </mat-tab>
       </mat-tab-group>
     </div>

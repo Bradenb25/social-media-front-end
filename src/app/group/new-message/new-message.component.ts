@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Post } from 'src/app/shared/models/post';
 import { PostComment } from 'src/app/shared/models/post-comment';
 import { PostService } from 'src/app/services/post.service';
@@ -19,6 +19,7 @@ export class NewMessageComponent implements OnInit {
   pictureUrl: string;
   loggedInUser: SecurityObject;
   @Input() groupId: number;
+  @Output() newMessage = new EventEmitter<Post>();
 
   ngOnInit() {
     this.message = '';
@@ -34,12 +35,16 @@ export class NewMessageComponent implements OnInit {
       post.content = this.message;
       post.username = this.loggedInUser.userName;
       post.id = 0;
-      post.poster = '';
-      post.poster_id = 0;
-      post.poster_name = this.loggedInUser.name;
+      post.poster = this.loggedInUser.userName;
+      post.poster_id = this.loggedInUser.id;
+      post.name = this.loggedInUser.name;
+      post.pictureUrl = this.userSvc.getProfilePicUrl(post.username);
       this.postSvc.createPost(post)
         .subscribe(x => {
           console.log('The new post id is ' + x);
+          post.id = x;
+          this.message = '';
+          this.newMessage.emit(post);
         })
   }
 

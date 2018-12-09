@@ -11,6 +11,7 @@ export class FriendsService {
   private friendRequestUrl: string;
   private friendRequestsUrl: string;
   private addFriendUrl: string;
+  private deleteFriendRequestUrl: string;
 
   constructor(private _http: HttpClient) {
     this.friendsForUserUrl = `/friends `; 
@@ -18,6 +19,11 @@ export class FriendsService {
     this.friendRequestUrl = `/friend/request`;
     this.friendRequestsUrl = `/friend/request`;
     this.addFriendUrl = `/friend`
+    this.deleteFriendRequestUrl = `/friend/request?id=`;
+  }
+
+  deleteFriendRequest(id: number) {
+    return this._http.delete(this.deleteFriendRequestUrl + id);
   }
 
   getFriendsForUser() {
@@ -39,4 +45,5 @@ export class FriendsService {
   addFriend(id: number) {
     return this._http.post<any>(this.addFriendUrl, {friendId: id})
   }
+
 }

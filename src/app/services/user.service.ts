@@ -13,16 +13,35 @@ export class UserService {
   private createUserUrl: string;
   private loginUrl: string;
   private securityObject: SecurityObject;
-  private profilePicUrl: string;
+  private profilePicDataUrl: string;
+  private groupsUsersAreInUrl: string;
+  private searchUrl: string;
 
   constructor(private _http: HttpClient) {
     this.createUserUrl = `/user`;
     this.loginUrl = `/login`;
-    this.profilePicUrl = `/user/profile-pic`;
+    this.profilePicDataUrl = `/user/profile-pic?username=`;
+    this.groupsUsersAreInUrl = `/user/groups`;    
+    this.searchUrl = `/user/search?name=`; 
+  }
+
+  getGroupsForUser() { 
+    return this._http.get<any>(this.groupsUsersAreInUrl);
+  }
+
+  searchForUsers(query: string) {
+    return this._http.get<any>(this.searchUrl + query);
   }
 
   getSecurityObject() {
     return this.securityObject;
+  }
+
+  uploadProfilePic(file: File) {
+      const formData: FormData = new FormData();
+      formData.append('fileKey', file, file.name);
+      return this._http
+        .post(this.profilePicDataUrl, formData);
   }
 
   getLoggedInProfilePicUrl() {
@@ -31,6 +50,10 @@ export class UserService {
 
   getProfilePicUrl(username: string) {
     return environment.baseUrl + '/user/profile-pic?username=' + username;
+  }
+
+  getProfilePicData(username: string = this.securityObject.userName) {
+    return this._http.get<any>(this.profilePicDataUrl + username);
   }
 
   signUp(user: User) {
@@ -45,7 +68,7 @@ export class UserService {
     localStorage.setItem('bearer', JSON.stringify(security));
     this.securityObject = security;
   }
-
+ 
   isAuthenticated() {
     if (!this.securityObject) {
       return false;

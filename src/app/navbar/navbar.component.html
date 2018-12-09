@@ -23,19 +23,19 @@
     </ul>
 
     <ul class="nav justify-content-end" *ngIf="isAuthenticated()">
-      <li class="nav-link">
-        <button mat-button [matMenuTriggerFor]="menu" style="color: white">Friend Requests</button>
+      <li class="nav-item">
+        <button class="nav-link" mat-button [matMenuTriggerFor]="menu" style="color: white">Friend Requests</button>
         <mat-menu #menu="matMenu" style="width: 200px;">
           <button mat-menu-item *ngFor="let request of friendRequests" style="width: 200px; cursor:initial">
-            <img src="{{request.pictureUrl}}" style="max-height: 50px;">
+            <img [src]="request.pictureUrl" style="max-height: 50px;">
             {{request.first_name}}
 
-            <span (click)="addFriend(request)" style="float: right;">Add</span>
-          </button>
+            <span (click)="addFriend(request)" style="float: right; cursor: pointer">Add</span>
+          </button> 
         </mat-menu>
       </li>
-      <li>
-        <button mat-button [matMenuTriggerFor]="createMenu" style="color: white">Create</button>
+      <li class="nav-item">
+        <button class="nav-link" mat-button [matMenuTriggerFor]="createMenu" style="color: white;">Create</button>
         <mat-menu #createMenu="matMenu" style="width: 200px;">
           <div mat-menu-item style="min-width: 200px; cursor:initial" (click)="createGroup()">
             <div>
@@ -49,7 +49,7 @@
         </mat-menu>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="color:white; cursor: pointer;" [routerLink]="'/user'">{{name}}</a>
+        <a class="nav-link" style="color:white; cursor: pointer;" [routerLink]="'/user'">{{userService.getSecurityObject().name}}</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" style="color:white; cursor: pointer;" (click)="logout()">Logout</a>

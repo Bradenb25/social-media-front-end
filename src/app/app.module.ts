@@ -22,6 +22,7 @@ import { CreateGroupComponent } from './group/create-group/create-group.componen
 import { GroupTypeComponent } from './group/create-group/group-type.component';
 import { NewMessageComponent } from './group/new-message/new-message.component';
 import { AddPictureComponent } from './add-picture/add-picture.component';
+import { AddPictureUserComponent } from './user/add-picture-user/add-picture-user.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { AddPictureComponent } from './add-picture/add-picture.component';
     CreateGroupComponent,
     GroupTypeComponent,
     NewMessageComponent,
-    AddPictureComponent
+    AddPictureComponent,
+    AddPictureUserComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import { AddPictureComponent } from './add-picture/add-picture.component';
   ],
   entryComponents: [
     CreateGroupComponent,
-    AddPictureComponent
+    AddPictureComponent,
+    AddPictureUserComponent
   ],
   providers: [
   ],

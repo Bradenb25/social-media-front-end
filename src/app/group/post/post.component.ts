@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Post } from 'src/app/shared/models/post';
 import { PostService } from 'src/app/services/post.service';
 import { PostComment } from 'src/app/shared/models/post-comment';
@@ -16,13 +16,14 @@ export class PostComponent implements OnInit {
     private userSvc: UserService) { }
 
   @Input() post: Post;
+  @Output() postDeleted: EventEmitter<Post> = new EventEmitter();
   postComments: PostComment[];
   loggedInUser: SecurityObject = this.userSvc.getSecurityObject();
-  
-  
-
-  ngOnInit() {
+  replyPicUrl: string;
     
+
+  ngOnInit() { 
+    this.replyPicUrl = this.userSvc.getLoggedInProfilePicUrl()
     console.log(this.post);
     this.postSvc.getCommentsForPost(this.post.id)
       .subscribe(x => {
@@ -62,6 +63,13 @@ export class PostComponent implements OnInit {
           this.postComments.splice(indexOfComment, 1);
         });
     }
+  }
+
+  deletePost(post: Post) {
+    this.postSvc.deletePost(post.id)
+      .subscribe(x => {
+        this.postDeleted.emit(post);
+      })
   }
 
 } 

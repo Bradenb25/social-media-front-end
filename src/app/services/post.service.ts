@@ -13,18 +13,19 @@ export class PostService {
   private createPostCommentUrl: string;
   private deletePostCommentUrl: string;
   private createPostUrl: string;
+  private deletePostUrl: string;
 
   constructor(private _http: HttpClient) {
     this.postUrl = `/post?groupid=`; 
     this.postCommentsUrl = `/post/comment?postId=`;
     this.createPostCommentUrl = `/post/comment`;
     this.deletePostCommentUrl = `/post/comment?id=`;
-    this.createPostCommentUrl = `/post`;
     this.createPostUrl = `/post`;
+    this.deletePostUrl = `/post?groupId=`
   }
 
   createPost(post: Post) {
-    return this._http.post(this.createPostUrl, post);
+    return this._http.post<any>(this.createPostUrl, post);
   }
 
   getPosts(id: number) {
@@ -41,6 +42,10 @@ export class PostService {
 
   deletePostComment(id: number) {
     return this._http.delete(this.deletePostCommentUrl + id);
+  }
+
+  deletePost(id: number) {
+    return this._http.delete(this.deletePostUrl + id);
   }
 
 }
