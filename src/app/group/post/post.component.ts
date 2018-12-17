@@ -4,6 +4,7 @@ import { PostService } from 'src/app/services/post.service';
 import { PostComment } from 'src/app/shared/models/post-comment';
 import { UserService } from 'src/app/services/user.service';
 import { SecurityObject } from 'src/app/shared/models/security-object';
+import { PictureService } from 'src/app/services/picture.service';
 
 @Component({
   selector: 'app-post',
@@ -13,17 +14,26 @@ import { SecurityObject } from 'src/app/shared/models/security-object';
 export class PostComponent implements OnInit {
 
   constructor(private postSvc: PostService,
-    private userSvc: UserService) { }
+    private userSvc: UserService,
+    private picSvc: PictureService) { }
 
   @Input() post: Post;
   @Output() postDeleted: EventEmitter<Post> = new EventEmitter();
   postComments: PostComment[];
   loggedInUser: SecurityObject = this.userSvc.getSecurityObject();
-  replyPicUrl: string;
-    
+  replyPicUrl: any;
 
-  ngOnInit() { 
-    this.replyPicUrl = this.userSvc.getLoggedInProfilePicUrl()
+  ngOnInit() {
+    this.picSvc.getPicture(this.post.username)
+      .subscribe(x => {
+        this.post.pictureUrl = this.picSvc.getPictureFromBuffer(x.picture);
+      });
+
+    this.picSvc.getPicture()
+      .subscribe(x => {
+        this.replyPicUrl = this.picSvc.getPictureFromBuffer(x.picture);
+      });
+
     console.log(this.post);
     this.postSvc.getCommentsForPost(this.post.id)
       .subscribe(x => {
@@ -49,13 +59,11 @@ export class PostComponent implements OnInit {
           postComment.showDeleteButton = true;
           this.postComments.push(postComment);
           content.value = '';
-          console.log(content.value);
         })
     }
   }
 
   deletePostComment(postComment: PostComment) {
-    console.log(postComment);
     if (postComment.username.toLowerCase() == this.loggedInUser.userName.toLowerCase()) {
       this.postSvc.deletePostComment(postComment.post_comment_id)
         .subscribe(x => {

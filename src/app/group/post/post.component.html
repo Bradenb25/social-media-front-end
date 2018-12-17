@@ -3,7 +3,7 @@
   <mat-card-content>
     <div class="row">
       <div class="col-2">
-        <img class="post-person-img" src="{{post.pictureUrl}}">
+        <img class="post-person-img" [src]="post.pictureUrl">
       </div>
       <div class="col-9">
         <span class="post-person-name">
@@ -40,7 +40,7 @@
       <div class="col-12 reply">
         <div class="row">
           <div class="col-2">
-            <img class="reply-pic" src="{{replyPicUrl}}">
+            <img class="reply-pic" [src]="replyPicUrl">
           </div>
           <div class="col-9 reply-box">
             <input class="reply-input-box" type="text" #message placeholder="Write a message" (keyup)="createComment(message, $event)">

@@ -57,7 +57,7 @@ export class UserService {
   }
 
   signUp(user: User) {
-    return this._http.post(this.createUserUrl, user);
+    return this._http.post<any>(this.createUserUrl, user);
   }
 
   login(user: User): Observable<any> {

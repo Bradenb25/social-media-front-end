@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GroupType } from 'src/app/shared/models/group-type';
 import { GroupService } from 'src/app/services/group.service';
 import { Group } from 'src/app/shared/models/group';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-group',
@@ -14,7 +15,8 @@ export class CreateGroupComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CreateGroupComponent>,
-    private groupSvc: GroupService) { }
+    private groupSvc: GroupService,
+    private router: Router) { }
 
   gT1: GroupType;
   selectedGroupType: GroupType;
@@ -58,10 +60,9 @@ export class CreateGroupComponent implements OnInit {
     group.type = this.groupType.value.id;
     this.groupSvc.createGroup(group)
       .subscribe(x => {
-        console.log('The id is ');
-        console.log(x);
         this.dialogRef.close();
+        let location = `/group/${x.id}`;
+        this.router.navigate([location])
       });
-    console.log(group);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GroupService } from 'src/app/services/group.service';
@@ -17,6 +17,7 @@ export class AddMemberComponent implements OnInit {
   ) { }
 
   @Input() groupId: number;
+  @Output() addedMember: EventEmitter<string> = new EventEmitter();
   people: any;
 
   ngOnInit() {
@@ -44,8 +45,7 @@ export class AddMemberComponent implements OnInit {
   addPersonToGroup(person: any) {
     this.grpSvc.joinGroup(this.groupId, person.id)
       .subscribe(x => {
-
+        this.addedMember.emit('');
       });
   }
-
 }

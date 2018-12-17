@@ -11,7 +11,7 @@ import { User } from '../shared/models/user';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private userSer: UserService,
+  constructor(private userSvc: UserService,
               private _router: Router) { }
     
   userName: FormControl;
@@ -39,12 +39,12 @@ export class SignUpComponent implements OnInit {
     let userUpdateDto = new User();
     userUpdateDto.email = this.email.value;
     userUpdateDto.firstName = this.firstName.value;
-    userUpdateDto.password = this.password.value;
+    userUpdateDto.password = this.password.value; 
     userUpdateDto.userName = this.userName.value;
-    console.log(this.loginGroup.value);
-    this.userSer.signUp(userUpdateDto)
+    this.userSvc.signUp(userUpdateDto)
       .subscribe(x => {
-
+        this.userSvc.setSecurityObject(x);
+        this._router.navigate(['/user']);
       });
   }
 

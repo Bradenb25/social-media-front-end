@@ -17,6 +17,8 @@ export class SearchComponent implements OnInit {
 
   friendResults: any;
   groupResults: any;
+  showGroupSpinner: boolean;
+  showFriendSpinner: boolean;
 
   ngOnInit() {
     this.friendResults = new Array();
@@ -32,13 +34,19 @@ export class SearchComponent implements OnInit {
 
   getSearchResults() {
     let query = this.route.snapshot.params['query'];
+    this.showFriendSpinner = true;
+    this.showGroupSpinner = true; 
+    this.groupResults = null;
+    this.friendResults = null;
     this.searchService.search(query)
       .subscribe(x => {
         this.friendResults = x; 
+        this.showFriendSpinner = false;
       });
     this.groupService.getGroups(query)
       .subscribe(x => {
         this.groupResults = x;
+        this.showGroupSpinner = false;
       });
   }
 

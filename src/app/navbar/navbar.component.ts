@@ -29,7 +29,6 @@ export class NavbarComponent implements OnInit {
   friendRequests: any[];
   name: string;
 
-
   ngOnInit() {
     this.friendSvc.getFriendRequests()
       .subscribe(y => {

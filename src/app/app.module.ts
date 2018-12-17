@@ -23,7 +23,12 @@ import { GroupTypeComponent } from './group/create-group/group-type.component';
 import { NewMessageComponent } from './group/new-message/new-message.component';
 import { AddPictureComponent } from './add-picture/add-picture.component';
 import { AddPictureUserComponent } from './user/add-picture-user/add-picture-user.component';
-
+import { AuthService, LoginAuthService } from './security/auth-service.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { TodoComponent } from './todo/todo.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -43,14 +48,19 @@ import { AddPictureUserComponent } from './user/add-picture-user/add-picture-use
     GroupTypeComponent,
     NewMessageComponent,
     AddPictureComponent,
-    AddPictureUserComponent
+    AddPictureUserComponent,
+    TodoComponent
   ],
   imports: [
     BrowserModule,
     SharedModule,
     HttpInterceptorModule,
     ImageCropperModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatInputModule
   ],
   entryComponents: [
     CreateGroupComponent,
@@ -58,6 +68,8 @@ import { AddPictureUserComponent } from './user/add-picture-user/add-picture-use
     AddPictureUserComponent
   ],
   providers: [
+    AuthService,
+    LoginAuthService
   ],
   bootstrap: [AppComponent]
 })

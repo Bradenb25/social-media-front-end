@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
     private grpSvc: GroupService) { }
 
   friends: any;
-  fileToUpload: File = null;
+  fileToUpload: File = new File([new Blob], '', new Object());
   profilePicture: any;
   user: any;
   groups: any;
@@ -33,23 +33,10 @@ export class UserComponent implements OnInit {
   groupResults: any;
 
   ngOnInit() {
-    this.friendsService.getFriendsForUser()
-      .subscribe(x => {
-        this.friends = x;
-        console.log(JSON.stringify(x));
-      })
+    this.getFriendsForUser();
     this.user = this.userSvc.getSecurityObject();
 
-    this.userSvc.getProfilePicData()
-      .subscribe(x => {
-        var getImageResult = x.picture;
-        var binstr = Array.prototype.map.call(getImageResult.data, function (ch) {
-          return String.fromCharCode(ch);
-        }).join('');
-        let data = btoa(binstr);
-        let picture = "data:image/jpg;base64," + data;
-        this.profilePicture = this._sanitizer.bypassSecurityTrustUrl(picture);
-      });
+    this.getProfilePicData();
 
     this.userSvc.getGroupsForUser()
       .subscribe(x => {
@@ -57,8 +44,33 @@ export class UserComponent implements OnInit {
       });
   }
 
+
+  getProfilePicData() {
+    this.userSvc.getProfilePicData()
+      .subscribe(x => {
+        if (x.picture != null) {
+          var getImageResult = x.picture;
+          var binstr = Array.prototype.map.call(getImageResult.data, function (ch) {
+            return String.fromCharCode(ch);
+          }).join('');
+          let data = btoa(binstr);
+          let picture = "data:image/jpg;base64," + data;
+          this.profilePicture = this._sanitizer.bypassSecurityTrustUrl(picture);
+        } else {
+          this.getDefaultPicture();
+        }
+      });
+  }
+
   getDefaultPicture() {
-    this.profilePicture = environment.baseUrl + '/user/profile-pic/default';
+    this.profilePicture = environment.baseUrl + '/api/user/profile-pic/default';
+  }
+
+  getFriendsForUser() {
+    this.friendsService.getFriendsForUser()
+      .subscribe(x => {
+        this.friends = x;
+      })
   }
 
   getProfilePictureUrl(username: string) {
@@ -72,6 +84,18 @@ export class UserComponent implements OnInit {
         showGroup: true,
       }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.status = 'success') {
+        setTimeout(x => {
+          this.getProfilePicData();
+        }, 1000);
+      }
+    })
+  }
+
+  friendDeleted() {
+    this.getFriendsForUser();
   }
 
   mouseEvent(event) {

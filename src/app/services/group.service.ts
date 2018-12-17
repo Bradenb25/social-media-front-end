@@ -20,6 +20,8 @@ export class GroupService {
   private joinGroupUrl: string;
   private groupsUsersAreInUrl: string;
   private addPersonToGroup: string;
+  private groupPicUrl: string;
+  private removedSignedInFromGroupUrl: string;
 
   constructor(private _http: HttpClient) {
     this.groupSearchUrl = `/group/search?name=`; 
@@ -31,12 +33,16 @@ export class GroupService {
     this.usersForGroupUrl = `/group/users?id=`;
     this.joinGroupUrl = `/group/user`;
     this.groupsUsersAreInUrl = `/user/groups`;
+    this.groupPicUrl = `/group/pic?groupId=`;
+    this.removedSignedInFromGroupUrl = `/group/user?groupId=`;
   }
 
-  
+  getGroupPhoto(groupId: number) {
+    return this._http.get<any>(this.groupPicUrl + groupId);
+  }
 
   createGroup(group: Group) {
-    return this._http.post(this.createGroupUrl, group);
+    return this._http.post<any>(this.createGroupUrl, group);
   }
 
   getGroups(query: string) {
@@ -67,5 +73,9 @@ export class GroupService {
 
   joinGroup(groupId: number, personId: number) {
     return this._http.post(this.joinGroupUrl, {id: groupId, personId: personId});
+  }
+
+  removeSignedInFromGroup(groupId: number) {
+    return this._http.delete(this.removedSignedInFromGroupUrl + groupId);
   }
 }

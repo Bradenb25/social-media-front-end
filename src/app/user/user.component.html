@@ -23,7 +23,7 @@
             </mat-card-header>
             <mat-card-content>
               <div *ngFor="let result of friends">
-                <app-search-row [result]='result' [showDelete]='true'></app-search-row>
+                <app-search-row [result]='result' [showDelete]='true' (deletedFriend)='friendDeleted()'></app-search-row>
               </div>
             </mat-card-content>
           </mat-card>

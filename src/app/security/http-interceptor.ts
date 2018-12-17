@@ -10,7 +10,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler):
         Observable<HttpEvent<any>> {
 
-        let url = environment.baseUrl + req.url;
+        let url = environment.baseUrl + '/api' + req.url;
 
         const httpRequest = new HttpRequest(<any>req.method, url, req.body, {headers: req.headers});
         req = Object.assign(req, httpRequest);

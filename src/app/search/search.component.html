@@ -6,26 +6,33 @@
             <mat-card class="example-card">
                 <mat-card-header style="border-bottom: 2px solid rgb(233, 235, 238); margin-bottom: 8px;">
                     <div mat-card-avatar class="example-header-image"></div>
-                    <mat-card-title>People</mat-card-title>  
-                </mat-card-header> 
-                <mat-card-content> 
+                    <mat-card-title>People</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div *ngIf=showFriendSpinner>
+                        <mat-spinner [strokeWidth]='5' [diameter]='50' style="margin: 0 auto;"></mat-spinner>
+                    </div>
                     <div *ngFor="let result of friendResults">
                         <app-search-row [result]='result' [showAdd]='true'></app-search-row>
                     </div>
-                    <span *ngIf='displayNoResults(friendResults)'>No results</span>
+                    <span *ngIf='displayNoResults(friendResults) && !showFriendSpinner'>No results</span>
                 </mat-card-content>
             </mat-card>
 
             <mat-card class="example-card" style="margin-top: 40px;">
                 <mat-card-header style="border-bottom: 2px solid rgb(233, 235, 238); margin-bottom: 8px;">
                     <div mat-card-avatar class="example-header-image"></div>
-                    <mat-card-title>Groups</mat-card-title>  
-                </mat-card-header> 
-                <mat-card-content> 
+                    <mat-card-title>Groups</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div *ngIf='showGroupSpinner'>
+                        <mat-spinner [strokeWidth]='5' [diameter]='50' style="margin: 0 auto;"></mat-spinner>
+                    </div>
                     <div *ngFor="let result of groupResults">
                         <app-search-row [result]='result' [isGroup]='true'></app-search-row>
                     </div>
-                    <span *ngIf='displayNoResults(groupResults)'>No results</span>
+
+                    <span *ngIf='displayNoResults(groupResults) && !showGroupSpinner'>No results</span>
                 </mat-card-content>
             </mat-card>
         </div>

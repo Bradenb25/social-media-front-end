@@ -9,6 +9,7 @@ import { GroupService } from '../services/group.service';
 import { Group } from '../shared/models/group';
 import { GroupInfo } from '../shared/models/group-info';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PictureService } from '../services/picture.service';
 
 @Component({
   selector: 'app-group',
@@ -22,7 +23,8 @@ export class GroupComponent implements OnInit {
     private userSvc: UserService,
     private dialog: MatDialog,
     private groupSvc: GroupService,
-    private _sanitizer: DomSanitizer) { }
+    private _sanitizer: DomSanitizer,
+    private picSvc: PictureService) { }
 
   posts: Post[];
   groupId: number;
@@ -32,36 +34,40 @@ export class GroupComponent implements OnInit {
   showDiscussion: boolean = true;
   showMembers: boolean = false;
   groupMembers: any;
+  showJoinGroup: boolean;
 
   ngOnInit() {
     this.groupInfo = new GroupInfo();
     this.groupId = +this.route.snapshot.paramMap.get('id');
+    this.showJoinGroup = true;
 
     this.postSvc.getPosts(this.groupId)
       .subscribe(x => {
         // console.log(x); 
         for (let i = 0; i < x.length; i++) {
-          x[i].pictureUrl = this.userSvc.getProfilePicUrl(x[i].username);
+          x[i].pictureUrl = '';
         }
         this.posts = x;
       })
 
     this.groupSvc.getGroupInfo(this.groupId)
       .subscribe(x => {
-        console.log('Group info:')
-        console.log(x);
         this.groupInfo = x[0];
-        console.log(this.groupInfo);
-
-        var getImageResult = this.groupInfo.picture;
-        var binstr = Array.prototype.map.call(getImageResult.data, function (ch) {
-          return String.fromCharCode(ch);
-        }).join('');
-        let data = btoa(binstr);
-        let picture = "data:image/jpg;base64," + data;
-        this.groupPicture = this._sanitizer.bypassSecurityTrustUrl(picture);
+        if (this.groupInfo.picture) {
+          var getImageResult = this.groupInfo.picture;
+          var binstr = Array.prototype.map.call(getImageResult.data, function (ch) {
+            return String.fromCharCode(ch);
+          }).join('');
+          let data = btoa(binstr);
+          let picture = "data:image/jpg;base64," + data;
+          this.groupPicture = this._sanitizer.bypassSecurityTrustUrl(picture);
+        } else {
+          this.groupPicture = 'https://via.placeholder.com/700x300?text=Add+Group+Picture+Here';
+        }
 
       });
+
+    this.getGroupMembers();
   }
 
   changePicture() {
@@ -72,6 +78,19 @@ export class GroupComponent implements OnInit {
         groupId: this.groupId
       }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.status == 'success') {
+        setTimeout(y => {
+          this.groupSvc.getGroupPhoto(this.groupId)
+            .subscribe(x => {
+              this.groupPicture = this.picSvc.getPictureFromBuffer(x.picture);
+            })
+        }, 1000);
+      } else if (result.status == 'failed') {
+
+      }
+    })
   }
 
   newMessage(post: Post) {
@@ -95,22 +114,42 @@ export class GroupComponent implements OnInit {
     this.showMembers = false;
   }
 
+  getGroupMembers() {
+    this.groupSvc.getUsersForGroup(this.groupId)
+      .subscribe(x => {
+        this.groupMembers = x;
+
+        this.showJoinGroup = true;
+
+        for (let i = 0; i < x.length; i++) {
+          if (this.userSvc.getSecurityObject().userName == x[i].username) {
+            this.showJoinGroup = false;
+          }
+        }
+      });
+  }
+
+  leaveGroup() {
+    this.groupSvc.removeSignedInFromGroup(this.groupId)
+      .subscribe(x => {
+        this.getGroupMembers();
+      })
+  }
+
   members() {
     this.showAbout = false;
     this.showDiscussion = false;
     this.showMembers = true;
     if (!this.groupMembers) {
-      this.groupSvc.getUsersForGroup(this.groupId)
-        .subscribe(x => {
-          this.groupMembers = x;
-        });
+      this.getGroupMembers();
     }
   }
 
   joinGroup() {
-    this.groupSvc.joinGroup(this.groupId, this.userSvc.getSecurityObject().id) 
+    this.groupSvc.joinGroup(this.groupId, this.userSvc.getSecurityObject().id)
       .subscribe(x => {
-
+        this.getGroupMembers();
       });
   }
+
 }

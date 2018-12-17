@@ -4,7 +4,7 @@ export class PostComment {
     post_id: number;
     post_comment_id: number;
     username: string;
-    pictureUrl: string;
+    pictureUrl: any;
     time: Date;
     showDeleteButton: boolean;
 }

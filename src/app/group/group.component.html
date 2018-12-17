@@ -35,9 +35,13 @@
         <mat-icon class="change-pic" (click)="changePicture()">add</mat-icon>
       </div>
       <div style="background-color: white; height: 50px; max-width: 700px;">
-        <div class="join-group" (click)="joinGroup()">
+        <div *ngIf="showJoinGroup" class="join-group" (click)="joinGroup()">
           <mat-icon style="margin: 2.5px; color: white;">add</mat-icon>
           <div class="join-group-text">Join Group</div>
+        </div>
+
+        <div *ngIf="!showJoinGroup" class="join-group" (click)="leaveGroup()">
+          <span class="leave-group-text">Leave Group</span>
         </div>
       </div>
 
@@ -66,7 +70,7 @@
             </span>
           </div>
           <div class="col-4" style="margin-top: 10px;">
-            <app-add-member [groupId]='groupId'></app-add-member>
+            <app-add-member [groupId]='groupId' (addedMember)='getGroupMembers()'></app-add-member>
           </div>
         </div>
 

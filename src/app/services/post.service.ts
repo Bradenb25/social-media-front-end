@@ -6,7 +6,7 @@ import { PostComment } from '../shared/models/post-comment';
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {
+export class PostService { 
   
   private postUrl: string;
   private postCommentsUrl: string;

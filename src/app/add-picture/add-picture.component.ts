@@ -20,18 +20,17 @@ export class AddPictureComponent implements OnInit {
   }
 
   friends: any;
-  fileToUpload: File = null;
+  fileToUpload: File = new File([new Blob], '', new Object());
   profilePicture: string;
   user: any;
   showGroup: boolean;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
  
   changeFile(event: File) {
     this.fileToUpload = event;
     this.showGroup = true;
-  }
-
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
+  }  
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -50,9 +49,9 @@ export class AddPictureComponent implements OnInit {
 
   uploadGroupPhoto() {
     this.groupSvc.changePhoto(this.fileToUpload, this.data.groupId).subscribe(data => {
-      // do something, if upload success
+      this.dialogRef.close({ status: 'success' });
     }, error => {
-      console.log(error);
+      this.dialogRef.close({ status: 'failed' });
     });
   }
 

@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(appUser)
       .subscribe(x => {
         this.userService.setSecurityObject(x);
-        this.router.navigate(['/search']);
+        this.router.navigate(['/user']);
       });
 
   } 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FriendsService } from 'src/app/services/friends.service';
 import { environment } from 'src/environments/environment';
@@ -25,6 +25,7 @@ export class SearchRowComponent implements OnInit {
   @Input() showDelete: boolean;
   @Input() showAdd: boolean;
   @Input() isGroup: boolean;
+  @Output() deletedFriend: EventEmitter<string> = new EventEmitter();
 
   ngOnInit() {
     if (this.isGroup) {
@@ -37,12 +38,16 @@ export class SearchRowComponent implements OnInit {
 
   pictureUrl: any;
 
+  
+
   getGroupUrl() {
     this.result.url = '/group/' + this.result.id;
   }
 
   navigate() {
-    this.router.navigate([`${this.result.url}`]);
+    if (this.result) { 
+      this.router.navigate([`${this.result.url}`]);
+    }
   }
 
   getGroupPictureUrl() {
@@ -75,7 +80,7 @@ export class SearchRowComponent implements OnInit {
   unFriend() {
     this.friendService.deleteFriend(this.result.id)
       .subscribe(x => {
-
+        this.deletedFriend.emit('deleted');
       })
   }
 

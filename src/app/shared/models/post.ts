@@ -7,5 +7,5 @@ export class Post {
     poster
     time: Date;
     username: string;
-    pictureUrl: string;
+    pictureUrl: any;
 }

@@ -20,7 +20,7 @@ export class AddPictureUserComponent implements OnInit {
   }
 
   friends: any;
-  fileToUpload: File = null;
+  fileToUpload: File = new File([new Blob], '', new Object());
   profilePicture: string;
   user: any;
   showGroup: boolean;
@@ -50,8 +50,9 @@ export class AddPictureUserComponent implements OnInit {
 
   uploadGroupPhoto() {
     this.userSvc.uploadProfilePic(this.fileToUpload).subscribe(data => {
-      this.dialogRef.close();
+      this.dialogRef.close({ status: 'success'} );
     }, error => {
+      this.dialogRef.close({ status: 'failed'} )
       console.log(error);
     });
   }
